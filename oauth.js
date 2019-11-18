@@ -2,36 +2,33 @@ window.onload = function() {
     document.getElementById('authenticate').addEventListener('click', function() {
       chrome.identity.getAuthToken({interactive: true}, function(token) {
         let init = {
-          method: 'Post',
+          method: 'POST',
           async: true,
           headers: {
             Authorization: 'Bearer ' + token,
-            Accept: application/json,
-            'Content-Type': 'application/json',
-            "resource": {
-                "requests": [
-                  {
-                    "insertText": {
-                      "location": {
-                        "index": 1
-                      },
-                      "text": "Test"
-                    }
-                  }
-                ]
-              }
-            
+            'Content-Type': 'application/json'
           },
+          body: JSON.stringify({
+            "requests": [
+              {
+                "insertText": {
+                  "location": {
+                    "index": 1
+                  },
+                  "text": "Test"
+                }
+              }
+            ]
+          }),
+          'contentType': 'json'
+        };
 
-          };
         fetch(
-            'https://docs.googleapis.com/v1/documents/19fH2thVHfNWOZxXa7P6GvmIF5ajtjtSusbkymZKJeaM:batchUpdate?key=AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8',
+            'https://docs.googleapis.com/v1/documents/19fH2thVHfNWOZxXa7P6GvmIF5ajtjtSusbkymZKJeaM:batchUpdate?access_token=yes&key=AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8',
             init)
-
             .then((response) => response.json())
             .then(function(data) {
               console.log(data)
-              .then 
             });
       });
     });
