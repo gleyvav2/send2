@@ -4,10 +4,16 @@
   "key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4G4Do5cfEnLadtdizJyykPTeMhFIGX8GEO1GZ0MllaEVXEuGQsGR8C8l2VgNnBfYKhoGSaio45BVt/qsm32h5Cc0Og/Xkgu7VBJRqwmimbvpWvQ5tdZT/NvFPginEkdP2yRugMPExZQq5yzI8FnatSvxNdSCK3ygNJLseqDn3Kh0f9Y257PGUcUe1bKGKbJWTF8AZw5CqUdwyNtPEKNYENS8Ej+VJpEcoLnL9I6BiCZysDfsMYxfkK0n1abXTW3GZI0CSZI2MVadzUoP2Q4WDpRdoqynBWgCd7sKkxLlQ44dkBBpSH848FJiIkZXPswLb2jBmJ2kjlG4PBmcBWjpJwIDAQAB",
   "description": "Send selected text from the browser to a google doc.",
   "version": "1.0",
-  "permissions":["identity"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+},
+  "icons": {
+    "16": "send2.png"},
+  "permissions":["identity","contextMenus","<all_urls>"],
   "oauth2": {
     "client_id": "481015228871-q4rf7lfga87fu752pr2tnrgc49tmrv1h.apps.googleusercontent.com",
-    "scopes":["https://www.googleapis.com/auth/documents"]
+    "scopes":["https://www.googleapis.com/auth/documents","https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
   },
   "content_security_policy": "script-src 'self' https://apis.google.com/; object-src 'self'",
   "browser_action": {

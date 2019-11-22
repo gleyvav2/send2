@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
       };
 
       fetch(
-          'https://www.googleapis.com/drive/v3/files?key=AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8',
+         'https://www.googleapis.com/drive/v3/files?corpora=user&&q=mimeType%3D%22application%2Fvnd.google-apps.document%22and%20trashed%3Dfalse&key=AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8',
           init)
           .then((response) => response.json())
           .then(function(data) {
