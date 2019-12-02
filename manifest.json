@@ -5,12 +5,13 @@
   "description": "Send selected text from the browser to a google doc.",
   "version": "1.0",
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-},
+  "scripts": ["background.js"],
+  "js":["s2.js"],
+  "persistent": true
+  },
   "icons": {
     "16": "send2.png"},
-  "permissions":["identity","contextMenus","<all_urls>"],
+  "permissions":["identity","contextMenus","storage"],
   "oauth2": {
     "client_id": "481015228871-q4rf7lfga87fu752pr2tnrgc49tmrv1h.apps.googleusercontent.com",
     "scopes":["https://www.googleapis.com/auth/documents","https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
