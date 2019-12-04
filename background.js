@@ -1,3 +1,4 @@
+
 chrome.contextMenus.create({
   "id":"sendtodoc",
   "title": "Send2",
@@ -5,6 +6,8 @@ chrome.contextMenus.create({
 })
 chrome.contextMenus.onClicked.addListener(function(info){
   info.selectionText
+  chrome.storage.local.get(['key'], function(result) {
+    gg = result.key
   chrome.identity.getAuthToken({interactive: true}, function(token) {
     let init = {
       method: 'POST',
@@ -36,11 +39,6 @@ chrome.contextMenus.onClicked.addListener(function(info){
           console.log(data)
         });
   });
+});
+
 })
-
-
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    gg = request.greeting
-      sendResponse({farewell: "Pass"});
-  });
