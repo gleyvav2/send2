@@ -1,4 +1,4 @@
-
+var top = "on"
 chrome.contextMenus.create({
   "id":"sendtodoc",
   "title": "Send2",
@@ -6,8 +6,9 @@ chrome.contextMenus.create({
 })
 chrome.contextMenus.onClicked.addListener(function(info){
   info.selectionText
-  chrome.storage.local.get(['key'], function(result) {
+  chrome.storage.local.get(['key','key2'], function(result) {
     gg = result.key
+    title = result.key2
   chrome.identity.getAuthToken({interactive: true}, function(token) {
     let init = {
       method: 'POST',
@@ -37,8 +38,16 @@ chrome.contextMenus.onClicked.addListener(function(info){
         .then((response) => response.json())
         .then(function(data) {
           console.log(data)
-        });
-  });
-});
-
-})
+          chrome.notifications.clear('success', function (){})
+          chrome.notifications.create(
+            'success',{   
+            type: 'basic', 
+            iconUrl: 'send2.png', 
+            title: "Send2", 
+            message: "Your message has been sent to the following document: " +title ,
+            silent:true,
+            priority:0 
+            },
+        function(){});
+        chrome.notifications.clear('success', function (){}) });
+           })})})

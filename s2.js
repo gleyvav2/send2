@@ -68,10 +68,13 @@ function createPicker() {
 }
 function pickerCallback(data) {
   var url ;
+  var title;
+  console.log(url)
   if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
     var doc = data[google.picker.Response.DOCUMENTS][0];
     url = doc[google.picker.Document.ID];
-    chrome.storage.local.set({key: url}, function() {
+    title = doc[google.picker.Document.NAME]
+    chrome.storage.local.set({key:url,key2:title}, function() {
     })
     window.close()
   }
