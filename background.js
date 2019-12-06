@@ -1,10 +1,11 @@
-let top1 = "on"
 chrome.contextMenus.create({
   "id":"sendtodoc",
   "title": "Send2",
   "contexts": ["selection"],
 })
-
+chrome.storage.local.get('dpselectset', function(result) {
+  let top1 = result.dpselectset
+  console.log(top1)
 if (top1 == "on"){
 chrome.contextMenus.onClicked.addListener(function(info){
   info.selectionText
@@ -39,7 +40,6 @@ chrome.contextMenus.onClicked.addListener(function(info){
         init)
         .then((response) => response.json())
         .then(function(data) {
-          console.log(data)
           chrome.notifications.clear('success', function (){})
           chrome.notifications.create(
             'success',{   
@@ -52,9 +52,12 @@ chrome.contextMenus.onClicked.addListener(function(info){
             },
         function(){});
         chrome.notifications.clear('success', function (){}) });
-           })})})}
+           })})})}})
 
-else if (top1 =="off"){
+chrome.storage.local.get('dpselectset', function(result) {
+  let top1 = result.dpselectset
+console.log(top1)
+ if (top1 =="off"){
            chrome.contextMenus.onClicked.addListener(function(info){
             info.selectionText
             chrome.storage.local.get(['key','key2'], function(result) {
@@ -101,4 +104,4 @@ else if (top1 =="off"){
                       },
                   function(){});
                   chrome.notifications.clear('success', function (){}) });
-                     })})})}
+                     })})})}})

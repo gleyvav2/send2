@@ -13,14 +13,11 @@ function loadScript(url){
 	request.open('GET', url);
 	request.send();
 }
-
 var developerKey = "AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8";
 var clientId = "481015228871-q4rf7lfga87fu752pr2tnrgc49tmrv1h.apps.googleusercontent.com";
 var scope = 'https://www.googleapis.com/auth/drive.file';
 var pickerApiLoaded = false;
 
-
-// Use the API Loader script to load google.picker and gapi.auth.
 function onApiLoad() {
   gapi.load('auth2', onAuthApiLoad);
   gapi.load('picker', onPickerApiLoad);
@@ -83,3 +80,20 @@ function pickerCallback(data) {
     window.close()
   }
 }
+document.addEventListener('DOMContentLoaded', function () {
+addEventListener('change', function(){
+dpselect = document.getElementById('dropdown').value;
+chrome.storage.local.set({"dpselectset":dpselect}, function() {
+  console.log(dpselect)
+})
+})})
+
+
+document.addEventListener('DOMContentLoaded', function () {
+chrome.storage.local.get('dpselectset', function(result) {
+  if (result.dpselectset == "on")
+  {document.getElementById('dropdown').value="on"}
+  else if (result.dpselectset == "off"){
+  document.getElementById('dropdown').value="off"
+}
+})})
