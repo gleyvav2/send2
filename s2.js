@@ -95,3 +95,10 @@ chrome.storage.local.get('dpselectset', function(result) {
   document.getElementById('dropdown').value="off"
 }
 })})
+
+
+document.getElementById('donate');  
+  document.addEventListener('click', function(activeTab) {
+    var newURL = "https://ko-fi.com/send22";
+    chrome.tabs.create({ url: newURL });
+  })

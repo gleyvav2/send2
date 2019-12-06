@@ -7,12 +7,13 @@
   "author": "Gus Leyva",
   "background": {
   "scripts": ["background.js"],
-  "js":["s2.js"]
+  "js":["s2.js"],
+  "persistent":true
   },
   "icons": {
     "16": "send2.png"},
   "permissions":["https://docs.google.com/*","https://apis.google.com/*",
-    "https://docs.googleapis.com/*","identity","contextMenus","storage","notifications"],
+    "https://docs.googleapis.com/*","identity","contextMenus","storage","notifications","tabs"],
   "oauth2": {
     "client_id": "481015228871-q4rf7lfga87fu752pr2tnrgc49tmrv1h.apps.googleusercontent.com",
     "scopes":["https://www.googleapis.com/auth/documents","https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/drive"]
