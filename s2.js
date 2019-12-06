@@ -97,8 +97,8 @@ chrome.storage.local.get('dpselectset', function(result) {
 })})
 
 
-document.getElementById('donate');  
-  document.addEventListener('click', function(activeTab) {
+var donatebtn = document.getElementById('donate');  
+donatebtn.addEventListener('click', function() {
     var newURL = "https://ko-fi.com/send22";
     chrome.tabs.create({ url: newURL });
   })
