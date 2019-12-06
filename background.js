@@ -3,12 +3,13 @@ chrome.contextMenus.create({
   "title": "Send2",
   "contexts": ["selection"],
 })
-chrome.storage.local.get('dpselectset', function(result) {
-  let top1 = result.dpselectset
-  console.log(top1)
-if (top1 == "on"){
+
 chrome.contextMenus.onClicked.addListener(function(info){
   info.selectionText
+  chrome.storage.local.get('dpselectset', function(result) {
+    let top1 = result.dpselectset
+    console.log(top1)
+  if (top1 == "on"){
   chrome.storage.local.get(['key','key2'], function(result) {
     gg = result.key
     title = result.key2
@@ -52,14 +53,15 @@ chrome.contextMenus.onClicked.addListener(function(info){
             },
         function(){});
         chrome.notifications.clear('success', function (){}) });
-           })})})}})
+           })})}})})
 
-chrome.storage.local.get('dpselectset', function(result) {
-  let top1 = result.dpselectset
-console.log(top1)
- if (top1 =="off"){
+
            chrome.contextMenus.onClicked.addListener(function(info){
             info.selectionText
+            chrome.storage.local.get('dpselectset', function(result) {
+              let top1 = result.dpselectset
+            console.log(top1)
+             if (top1 =="off"){
             chrome.storage.local.get(['key','key2'], function(result) {
               gg = result.key
               title = result.key2
@@ -104,4 +106,4 @@ console.log(top1)
                       },
                   function(){});
                   chrome.notifications.clear('success', function (){}) });
-                     })})})}})
+                     })})}})})
