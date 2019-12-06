@@ -1,11 +1,15 @@
 chrome.contextMenus.create({
   "id":"sendtodoc",
   "title": "Send2",
-  "contexts": ["selection"],
+  "contexts": ["selection","link"],
 })
 
 chrome.contextMenus.onClicked.addListener(function(info){
-  info.selectionText
+  selectedtext = info.selectionText
+  seletectedlink = info.linkUrl
+  let parsed;
+  if (selectedtext == undefined){parsed = info.linkUrl}
+  if (seletectedlink == undefined){parsed = info.selectionText}
   chrome.storage.local.get('dpselectset', function(result) {
     let top1 = result.dpselectset
     console.log(top1)
@@ -13,6 +17,7 @@ chrome.contextMenus.onClicked.addListener(function(info){
   chrome.storage.local.get(['key','key2'], function(result) {
     gg = result.key
     title = result.key2
+    console.log(parsed)
   chrome.identity.getAuthToken({interactive: true}, function(token) {
     let init = {
       method: 'POST',
@@ -28,9 +33,10 @@ chrome.contextMenus.onClicked.addListener(function(info){
               "location": {
                 "index": 1
               },
-              "text":   info.selectionText + "\n"
+              "text":parsed + "\n"
             }
-          }
+          },
+          
         ]
       }),
       'contentType': 'json'
@@ -107,3 +113,5 @@ chrome.contextMenus.onClicked.addListener(function(info){
                   function(){});
                   chrome.notifications.clear('success', function (){}) });
                      })})}})})
+
+
