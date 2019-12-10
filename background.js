@@ -1,3 +1,8 @@
+chrome.runtime.onInstalled.addListener(function(){
+      var newURL = "./tutorial/tutorial.html";
+      chrome.tabs.create({ url: newURL })})
+
+
 chrome.contextMenus.create({
   "id":"sendtodoc",
   "title": "Send2",
@@ -33,7 +38,7 @@ chrome.contextMenus.onClicked.addListener(function(info){
               "location": {
                 "index": 1
               },
-              "text":parsed + "\n"
+              "text":parsed + "\n"  
             }
           },
           
@@ -113,5 +118,3 @@ chrome.contextMenus.onClicked.addListener(function(info){
                   function(){});
                   chrome.notifications.clear('success', function (){}) });
                      })})}})})
-
-
