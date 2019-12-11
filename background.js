@@ -49,8 +49,15 @@ chrome.contextMenus.onClicked.addListener(function(info){
     fetch(
         "https://docs.googleapis.com/v1/documents/"+ gg +":batchUpdate?access_token=yes&key=AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8",
         init)
-        .then((response) => response.json())
-        .then(function(data) {
+        .then((response) =>{if(response.status !== 200) {chrome.notifications.create(
+          'success',{   
+          type: 'basic', 
+          iconUrl: 'send2.png', 
+          title: "Send2", 
+          message: "Please Authorize the app or select a document" ,
+          silent:true,
+          priority:2 
+          })} else return (response.json().then(function(data) {
           chrome.notifications.create(
             'success',{   
             type: 'basic', 
@@ -61,7 +68,8 @@ chrome.contextMenus.onClicked.addListener(function(info){
             priority:2 
             },
             
-          )})})})}})})
+          )}))})
+        })})}})})
 
 
            chrome.contextMenus.onClicked.addListener(function(info){
@@ -96,10 +104,17 @@ chrome.contextMenus.onClicked.addListener(function(info){
               };
           
               fetch(
-                  "https://docs.googleapis.com/v1/documents/"+ gg +":batchUpdate?access_token=yes&key=AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8",
-                  init)
-                  .then((response) => response.json())
-                  .then(function(data) {
+                  "https://docs.googleapis.com/v1/documents/"+ gg +":batchUpdate?access_token=yes&key=AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8",init)
+                  .then((response) => {if(response.status !== 200) {chrome.notifications.create(
+                    'success',{   
+                    type: 'basic', 
+                    iconUrl: 'send2.png', 
+                    title: "Send2", 
+                    message: "Please Authorize the app or select a document" ,
+                    silent:true,
+                    priority:2 
+                    })} else return (response.json().then(function(data) {
+                  (function(data) {
                     chrome.notifications.create(
                       'success',{   
                       type: 'basic', 
@@ -109,4 +124,4 @@ chrome.contextMenus.onClicked.addListener(function(info){
                       silent:true,
                       priority:0 
                       },
-                    )})})})}})})
+                    )})}))})})})}})})

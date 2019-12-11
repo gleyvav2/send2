@@ -71,7 +71,7 @@ function pickerCallback(data) {
     url = doc[google.picker.Document.ID];
     title = doc[google.picker.Document.NAME]
     chrome.storage.local.set({key:url,key2:title}, function() {
-      });
+      });   
       chrome.notifications.create(
         'selecteddoc',{   
         type: 'basic', 
@@ -81,10 +81,17 @@ function pickerCallback(data) {
         silent:true,
         priority:0 
         },
-      )}
+      )
+      document.getElementById('main').style.width="250px";
+    document.getElementById('main').style.height="250px";
+    setTimeout("window.close()",100);
+
+    }
   else if 
   (data[google.picker.Response.ACTION] == google.picker.Action.CANCEL){
     window.close()
+  }
+  else if (closeme == 1 ){    window.close()
   }
 }
 document.addEventListener('DOMContentLoaded', function () {
