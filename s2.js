@@ -71,12 +71,27 @@ function pickerCallback(data) {
     url = doc[google.picker.Document.ID];
     title = doc[google.picker.Document.NAME]
     chrome.storage.local.set({key:url,key2:title}, function() {
-    })
-    window.close()
-  }
+      });   
+      chrome.notifications.create(
+        'selecteddoc',{   
+        type: 'basic', 
+        iconUrl: 'send2.png', 
+        title: "Send2", 
+        message: "Your doc has been selected: " +title ,
+        silent:true,
+        priority:0 
+        },
+      )
+      document.getElementById('main').style.width="250px";
+    document.getElementById('main').style.height="250px";
+    setTimeout("window.close()",100);
+
+    }
   else if 
   (data[google.picker.Response.ACTION] == google.picker.Action.CANCEL){
     window.close()
+  }
+  else if (closeme == 1 ){    window.close()
   }
 }
 document.addEventListener('DOMContentLoaded', function () {
@@ -96,9 +111,16 @@ chrome.storage.local.get('dpselectset', function(result) {
 }
 })})
 
-
+document.addEventListener('DOMContentLoaded', function () {
 var donatebtn = document.getElementById('donate');  
 donatebtn.addEventListener('click', function() {
     var newURL = "https://ko-fi.com/send22";
     chrome.tabs.create({ url: newURL });
-  })
+  })})
+
+document.addEventListener('DOMContentLoaded', function () {
+    var donatebtn = document.getElementById('tutorial');  
+    donatebtn.addEventListener('click', function() {
+        var newURL = "./tutorial/tutorial.html";
+        chrome.tabs.create({ url: newURL });
+      })})
