@@ -11,7 +11,10 @@
   "persistent":true
   },
   "icons": {
-    "16": "send2.png"},
+    "16": "send2.png",
+    "32": "send2.png",
+    "48": "send2.png",
+    "128": "send2.png"},
   "permissions":["https://docs.google.com/*","https://apis.google.com/*",
     "https://docs.googleapis.com/*","identity","contextMenus","storage","notifications","tabs"],
   "oauth2": {
