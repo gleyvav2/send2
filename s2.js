@@ -79,12 +79,9 @@ function pickerCallback(data) {
         title: "Send2", 
         message: "Your doc has been selected: " +title ,
         silent:true,
-        priority:2 
+        priority:0 
         },
-    function(){    window.close()
-    });
-    chrome.notifications.clear('selecteddoc', function (){}) 
-  }
+      )}
   else if 
   (data[google.picker.Response.ACTION] == google.picker.Action.CANCEL){
     window.close()

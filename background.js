@@ -17,12 +17,11 @@ chrome.contextMenus.onClicked.addListener(function(info){
   if (seletectedlink == undefined){parsed = info.selectionText}
   chrome.storage.local.get('dpselectset', function(result) {
     let top1 = result.dpselectset
-    console.log(top1)
   if (top1 == "on"){
   chrome.storage.local.get(['key','key2'], function(result) {
     gg = result.key
     title = result.key2
-    console.log(parsed)
+    if (title == null){console.log("nothing")}
   chrome.identity.getAuthToken({interactive: true}, function(token) {
     let init = {
       method: 'POST',
@@ -52,7 +51,6 @@ chrome.contextMenus.onClicked.addListener(function(info){
         init)
         .then((response) => response.json())
         .then(function(data) {
-          chrome.notifications.clear('success', function (){})
           chrome.notifications.create(
             'success',{   
             type: 'basic', 
@@ -60,18 +58,16 @@ chrome.contextMenus.onClicked.addListener(function(info){
             title: "Send2", 
             message: "Your message has been sent to the following document: " +title ,
             silent:true,
-            priority:0 
+            priority:2 
             },
-        function(){});
-        chrome.notifications.clear('success', function (){}) });
-           })})}})})
+            
+          )})})})}})})
 
 
            chrome.contextMenus.onClicked.addListener(function(info){
             info.selectionText
             chrome.storage.local.get('dpselectset', function(result) {
               let top1 = result.dpselectset
-            console.log(top1)
              if (top1 =="off"){
             chrome.storage.local.get(['key','key2'], function(result) {
               gg = result.key
@@ -104,8 +100,6 @@ chrome.contextMenus.onClicked.addListener(function(info){
                   init)
                   .then((response) => response.json())
                   .then(function(data) {
-                    console.log(data)
-                    chrome.notifications.clear('success', function (){})
                     chrome.notifications.create(
                       'success',{   
                       type: 'basic', 
@@ -115,6 +109,4 @@ chrome.contextMenus.onClicked.addListener(function(info){
                       silent:true,
                       priority:0 
                       },
-                  function(){});
-                  chrome.notifications.clear('success', function (){}) });
-                     })})}})})
+                    )})})})}})})
