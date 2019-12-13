@@ -58,6 +58,7 @@ chrome.contextMenus.onClicked.addListener(function(info){
           silent:true,
           priority:2 
           })} else return (response.json().then(function(data) {
+          chrome.notifications.clear('success', () => {
           chrome.notifications.create(
             'success',{   
             type: 'basic', 
@@ -65,10 +66,10 @@ chrome.contextMenus.onClicked.addListener(function(info){
             title: "Send2", 
             message: "Your message has been sent to the following document: " +title ,
             silent:true,
-            priority:2 
+            priority:0 
             },
             
-          )}))})
+          )})}))})
         })})}})})
 
 
@@ -114,14 +115,17 @@ chrome.contextMenus.onClicked.addListener(function(info){
                     silent:true,
                     priority:2 
                     })} else return (response.json().then(function(data) {
-                  (function(data) {
-                    chrome.notifications.create(
-                      'success',{   
-                      type: 'basic', 
-                      iconUrl: 'send2.png', 
-                      title: "Send2", 
-                      message: "Your message has been sent to the following document: " +title ,
-                      silent:true,
-                      priority:0 
+                      chrome.notifications.clear('success', () => {
+                      chrome.notifications.create(
+                        'success',{   
+                        type: 'basic', 
+                        iconUrl: 'send2.png', 
+                        title: "Send2", 
+                        message: "Your message has been sent to the following document: " +title ,
+                        silent:true,
+                        priority:0 
+                        
                       },
-                    )})}))})})})}})})
+                      )
+                    
+                    })}))})})})}})})
