@@ -124,3 +124,62 @@ document.addEventListener('DOMContentLoaded', function () {
         var newURL = "./tutorial/tutorial.html";
         chrome.tabs.create({ url: newURL });
       })})
+     
+
+document.addEventListener('DOMContentLoaded', function () {
+  var currentUrl = document.getElementById('currentUrl');  
+  currentUrl.addEventListener('click', function() { console.log("gg")
+    chrome.tabs.getSelected(null,function(tab) {
+      chrome.storage.local.get(['key','key2'], function(result) {
+        gg = result.key
+        title = result.key2
+      var tablink = tab.url;
+      chrome.identity.getAuthToken({interactive: true}, function(token) {
+        let init = {
+          method: 'POST',
+          async: true,
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "requests": [
+              {
+                "insertText": {
+                  "endOfSegmentLocation": {
+                    "segmentId": ""
+                  },
+                  "text":tablink+"\n"
+                }
+              }
+            ]
+          }),
+          'contentType': 'json'
+        };
+    
+        fetch(
+            "https://docs.googleapis.com/v1/documents/"+ gg +":batchUpdate?access_token=yes&key=AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8",init)
+            .then((response) => {if(response.status !== 200) {chrome.notifications.create(
+              'success',{   
+              type: 'basic', 
+              iconUrl: 'send2.png', 
+              title: "Send2", 
+              message: "Please Authorize the app or select a document" ,
+              silent:true,
+              priority:2 
+              })} else return (response.json().then(function(data) {
+                chrome.notifications.clear('success', () => {
+                chrome.notifications.create(
+                  'success',{   
+                  type: 'basic', 
+                  iconUrl: 'send2.png', 
+                  title: "Send2", 
+                  message: "Your message has been sent to the following document: " +title ,
+                  silent:true,
+                  priority:0 
+                  
+                },
+                )
+      console.log(tablink)
+  });
+              }))})})})})})})
