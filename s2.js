@@ -124,7 +124,28 @@ document.addEventListener('DOMContentLoaded', function () {
         var newURL = "./tutorial/tutorial.html";
         chrome.tabs.create({ url: newURL });
       })})
-     
+
+      
+document.addEventListener('DOMContentLoaded', function () {
+  var phone = document.getElementById('phone');  
+  phone.addEventListener('click', function() {
+
+    var data = {
+    'to': '16197271386',
+    'from':'16192899915',
+    'Body': 'Hola'}
+
+    var xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://api.twilio.com/2010-04-01/Accounts/AC7c0420605b10b3bc1ec2bafc071553d9/Messages.json", true);
+        xhr.setRequestHeader('Authorization', 'Basic ' + btoa(unescape(encodeURIComponent("AC7c0420605b10b3bc1ec2bafc071553d9" + ':' + "4beb056670936962dcebc9e26db3500a"))))
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState == 4) {
+            console.log(xhr.responseText);
+          }
+        }
+        xhr.send(JSON.stringify(data));
+    })})
+
 
 document.addEventListener('DOMContentLoaded', function () {
   var currentUrl = document.getElementById('currentUrl');  
