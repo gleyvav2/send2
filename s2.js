@@ -129,22 +129,27 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
   var phone = document.getElementById('phone');  
   phone.addEventListener('click', function() {
+    chrome.tabs.getSelected(null,function(tab) {
+      var tablink = tab.url;
 
-    var data = {
-    'to': '16197271386',
-    'from':'16192899915',
-    'Body': 'Hola'}
-
-    var xhr = new XMLHttpRequest();
-        xhr.open("POST", "https://api.twilio.com/2010-04-01/Accounts/AC7c0420605b10b3bc1ec2bafc071553d9/Messages.json", true);
-        xhr.setRequestHeader('Authorization', 'Basic ' + btoa(unescape(encodeURIComponent("AC7c0420605b10b3bc1ec2bafc071553d9" + ':' + "4beb056670936962dcebc9e26db3500a"))))
-        xhr.onreadystatechange = function() {
-          if (xhr.readyState == 4) {
-            console.log(xhr.responseText);
-          }
+    var clientId = "AC7c0420605b10b3bc1ec2bafc071553d9";
+    var clientSecret = "4beb056670936962dcebc9e26db3500a";
+    
+    // var authorizationBasic = $.base64.btoa(clientId + ':' + clientSecret);
+    var authorizationBasic = window.btoa(clientId + ':' + clientSecret);
+    
+    var request = new XMLHttpRequest();
+    request.open('POST',"https://api.twilio.com/2010-04-01/Accounts/AC7c0420605b10b3bc1ec2bafc071553d9/Messages.json" , true);
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
+    request.setRequestHeader('Accept', 'application/json');
+    request.send("Body="+tablink+"&From=+16192899915&To=+16197271386");
+    
+    request.onreadystatechange = function () {
+        if (request.readyState === 4) {
         }
-        xhr.send(JSON.stringify(data));
-    })})
+    };})})})
+  
 
 
 document.addEventListener('DOMContentLoaded', function () {

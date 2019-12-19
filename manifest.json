@@ -16,7 +16,7 @@
     "48": "send2.png",
     "128": "send2.png"},
   "permissions":["https://docs.google.com/*","https://apis.google.com/*",
-    "https://docs.googleapis.com/*","identity","contextMenus","storage","notifications","tabs"],
+    "https://docs.googleapis.com/*","identity","contextMenus","storage","notifications","tabs","https://api.twilio.com/*"],
   "oauth2": {
     "client_id": "481015228871-q4rf7lfga87fu752pr2tnrgc49tmrv1h.apps.googleusercontent.com",
     "scopes":["https://www.googleapis.com/auth/documents","https://www.googleapis.com/auth/drive.file"]
