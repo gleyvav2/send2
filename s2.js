@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.tabs.create({ url: newURL });
       })})
 
-      
+   /*/   Remove comment to add SMS
 document.addEventListener('DOMContentLoaded', function () {
   var phone = document.getElementById('phone');  
   phone.addEventListener('click', function() {
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
               silent:true,
               priority:0 
             })})}}})})})
-                        
+           /*/             
   
 
 
