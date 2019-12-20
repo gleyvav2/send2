@@ -130,12 +130,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var phone = document.getElementById('phone');  
   phone.addEventListener('click', function() {
     chrome.tabs.getSelected(null,function(tab) {
-      var tablink = tab.url;
+    var tablink = tab.url;
 
     var clientId = "AC7c0420605b10b3bc1ec2bafc071553d9";
     var clientSecret = "4beb056670936962dcebc9e26db3500a";
-    
-    // var authorizationBasic = $.base64.btoa(clientId + ':' + clientSecret);
     var authorizationBasic = window.btoa(clientId + ':' + clientSecret);
     
     var request = new XMLHttpRequest();
@@ -144,11 +142,28 @@ document.addEventListener('DOMContentLoaded', function () {
     request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
     request.setRequestHeader('Accept', 'application/json');
     request.send("Body="+tablink+"&From=+16192899915&To=+16197271386");
-    
-    request.onreadystatechange = function () {
-        if (request.readyState === 4) {
-        }
-    };})})})
+    request.onreadystatechange = function () {    var checkrequest = request.status
+        if (checkrequest == 200){chrome.notifications.create(
+          'success',{   
+          type: 'basic', 
+          iconUrl: 'send2.png', 
+          title: "Send2", 
+          message: "Please Authorize the app or select a document" ,
+          silent:true,
+          priority:2 
+          })}
+          else if (checkrequest == 201){
+            chrome.notifications.clear('success', () => {
+            chrome.notifications.create(
+              'success',{   
+              type: 'basic', 
+              iconUrl: 'send2.png', 
+              title: "Send2", 
+              message: "Your message has been sent to the following number: "  ,
+              silent:true,
+              priority:0 
+            })})}}})})})
+                        
   
 
 
@@ -206,6 +221,5 @@ document.addEventListener('DOMContentLoaded', function () {
                   
                 },
                 )
-      console.log(tablink)
   });
               }))})})})})})})
