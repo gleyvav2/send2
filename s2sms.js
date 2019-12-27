@@ -50,6 +50,20 @@ document.addEventListener('DOMContentLoaded', function () {
         chrome.tabs.create({ url: newURL });
       })})
 
+document.addEventListener('DOMContentLoaded', function () {
+  btnsubmit = document.getElementById('btnsubmit');
+  btnsubmit.addEventListener('click', function(){
+    btnsubmit1 = document.getElementById("submitvalue").value;
+    chrome.storage.local.set({'btnsubmit':btnsubmit1}, function() {
+  })
+  })})
+
+  chrome.storage.local.get('btnsubmit', function(result) { 
+    document.getElementById("submitvalue").value=result.btnsubmit
+  })
+
+
+  
 //Send current page SMS
 document.addEventListener('DOMContentLoaded', function () {
   var phone = document.getElementById('phone');  
