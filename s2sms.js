@@ -55,17 +55,24 @@ document.addEventListener('DOMContentLoaded', function () {
   btnsubmit.addEventListener('click', function(){
     btnsubmit1 = document.getElementById("submitvalue").value;
     chrome.storage.local.set({'btnsubmit':btnsubmit1}, function() {
+      document.getElementById("saved").innerHTML = "Saved";
+      window.setTimeout(partB,500);
+      function partB(){      location.reload()
+      }
   })
   })})
 
   chrome.storage.local.get('btnsubmit', function(result) { 
-    document.getElementById("submitvalue").value=result.btnsubmit
+    document.getElementById("submitvalue").value=result.btnsubmit;
+
   })
 
 
   
 //Send current page SMS
 document.addEventListener('DOMContentLoaded', function () {
+  chrome.storage.local.get('btnsubmit', function(result) { 
+
   var phone = document.getElementById('phone');  
   phone.addEventListener('click', function() {
     chrome.tabs.getSelected(null,function(tab) {
@@ -74,14 +81,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var clientId = "AC7c0420605b10b3bc1ec2bafc071553d9";
     var clientSecret = "4beb056670936962dcebc9e26db3500a";
     var authorizationBasic = window.btoa(clientId + ':' + clientSecret);
-    var tonumber = "+16197271386"
-    
+    var tonumber = result.btnsubmit
     var request = new XMLHttpRequest();
     request.open('POST',"https://api.twilio.com/2010-04-01/Accounts/AC7c0420605b10b3bc1ec2bafc071553d9/Messages.json" , true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
     request.setRequestHeader('Accept', 'application/json');
-    request.send("Body="+tablink+" Sent using Send2"+"&From=+16192899915&To="+tonumber+"");
+    request.send("Body="+tablink+" Sent using Send2"+"&From=+16192899915&To=1"+tonumber+"");
     request.onreadystatechange = function () {    var checkrequest = request.status
         if (checkrequest == 200){chrome.notifications.create(
           'success',{   
@@ -102,4 +108,4 @@ document.addEventListener('DOMContentLoaded', function () {
               message: "Your message has been sent to the following number:"+tonumber+"",
               silent:true,
               priority:0 
-            })})}}})})})  
+            })})}}})})})})  
