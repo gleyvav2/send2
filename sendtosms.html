@@ -37,7 +37,7 @@ border: 0px solid;
 
 
 Send current URL to phone
-<button id="phone" style = "background-color: white; 
+<button class="button1" id="phone" style = "background-color: white; 
 border: 2px solid;
 color: #468189;
 cursor:pointer;
@@ -46,6 +46,11 @@ margin-left: 5px;
 text-decoration: none;
 display: inline-block;
 font-size: 16px;">SMS</button>
+<br><br>
+<form action="/save">
+    Phone Number: <input type="text" name="phonenumber" value="" maxlength="11" size="8" >
+    <input type="submit" value="Save" class="button1">
+    </form>
 <br>
  <a id="tutorial" href="">Quick tutorial</a>
  <br>

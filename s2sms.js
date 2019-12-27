@@ -1,19 +1,3 @@
-loadScript('https://apis.google.com/js/api.js?onload=onApiLoad');
-function loadScript(url){
-  var request = new XMLHttpRequest();
-	request.onreadystatechange = function(){
-		if(request.readyState !== 4) {
-			return;
-		}
-		if(request.status !== 200){
-			return;
-		}
-		eval(request.responseText);
-	};
-	request.open('GET', url);
-	request.send();
-}
-
 //Handles selected doc menu highlighter
 (function () {
   var lastTitle = "send2 doc";
@@ -76,13 +60,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var clientId = "AC7c0420605b10b3bc1ec2bafc071553d9";
     var clientSecret = "4beb056670936962dcebc9e26db3500a";
     var authorizationBasic = window.btoa(clientId + ':' + clientSecret);
+    var tonumber = "+16197271386"
     
     var request = new XMLHttpRequest();
     request.open('POST',"https://api.twilio.com/2010-04-01/Accounts/AC7c0420605b10b3bc1ec2bafc071553d9/Messages.json" , true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
     request.setRequestHeader('Accept', 'application/json');
-    request.send("Body="+tablink+"Sent using Send2"+"&From=+16192899915&To=+16197271386");
+    request.send("Body="+tablink+" Sent using Send2"+"&From=+16192899915&To="+tonumber+"");
     request.onreadystatechange = function () {    var checkrequest = request.status
         if (checkrequest == 200){chrome.notifications.create(
           'success',{   
@@ -100,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
               type: 'basic', 
               iconUrl: 'send2.png', 
               title: "Send2", 
-              message: "Your message has been sent to the following number: "  ,
+              message: "Your message has been sent to the following number:"+tonumber+"",
               silent:true,
               priority:0 
             })})}}})})})  
