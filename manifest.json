@@ -15,11 +15,11 @@
     "32": "send2.png",
     "48": "send2.png",
     "128": "send2.png"},
-  "permissions":["https://docs.google.com/*","https://apis.google.com/*",
+  "permissions":["https://docs.google.com/*","https://apis.google.com/*","https://www.googleapis.com/",
     "https://docs.googleapis.com/*","identity","contextMenus","storage","notifications","tabs","https://api.twilio.com/*"],
   "oauth2": {
     "client_id": "481015228871-q4rf7lfga87fu752pr2tnrgc49tmrv1h.apps.googleusercontent.com",
-    "scopes":["https://www.googleapis.com/auth/documents","https://www.googleapis.com/auth/drive.file"]
+    "scopes":["https://www.googleapis.com/auth/documents","https://www.googleapis.com/auth/drive.file","https://www.googleapis.com/auth/chromewebstore.readonly"]
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://apis.google.com/ https://docs.google.com/* ; object-src 'self'",
   

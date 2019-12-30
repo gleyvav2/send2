@@ -1,3 +1,21 @@
+chrome.storage.local.get('globalcount', function(result) {
+console.log(result.globalcount)
+})
+
+//this function will keep count for paid users
+   function counter(){chrome.storage.local.get('globalcount', function(result) {
+      var finalcount = result.globalcount
+      console.log(finalcount)  
+    var globalcount1 = finalcount || 0 
+    globalcount1++
+    chrome.storage.local.set({"globalcount":globalcount1}, function() {
+       })})}
+
+//Removes trial message
+send2check = "Sent using Send2 "
+
+
+
 loadScript('https://apis.google.com/js/api.js?onload=onApiLoad');
 function loadScript(url){
   var request = new XMLHttpRequest();
@@ -162,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
   var currentUrl = document.getElementById('currentUrl');  
-  currentUrl.addEventListener('click', function() { console.log("gg")
+  currentUrl.addEventListener('click', function() { 
     chrome.tabs.getSelected(null,function(tab) {
       chrome.storage.local.get(['key','key2'], function(result) {
         gg = result.key
@@ -183,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   "endOfSegmentLocation": {
                     "segmentId": ""
                   },
-                  "text":tablink+"\n"
+                  "text":send2check+tablink+"\n"
                 }
               }
             ]
@@ -203,6 +221,7 @@ document.addEventListener('DOMContentLoaded', function () {
               priority:2 
               })} else return (response.json().then(function(data) {
                 chrome.notifications.clear('success', () => {
+                  counter()
                 chrome.notifications.create(
                   'success',{   
                   type: 'basic', 
