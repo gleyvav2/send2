@@ -64,6 +64,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   chrome.storage.local.get('btnsubmit', function(result) { 
     document.getElementById("submitvalue").value=result.btnsubmit;
+    if (result.btnsubmit === undefined){
+      document.getElementById("submitvalue").value="" }
 
   })
 
@@ -82,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var clientSecret = "4beb056670936962dcebc9e26db3500a";
     var authorizationBasic = window.btoa(clientId + ':' + clientSecret);
     var tonumber = result.btnsubmit
+ 
     var request = new XMLHttpRequest();
     request.open('POST',"https://api.twilio.com/2010-04-01/Accounts/AC7c0420605b10b3bc1ec2bafc071553d9/Messages.json" , true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');

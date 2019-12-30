@@ -2,7 +2,6 @@ chrome.runtime.onInstalled.addListener(function(){
       var newURL = "./tutorial/tutorial.html";
       chrome.tabs.create({ url: newURL })})
 
-
 chrome.contextMenus.create({
   "id":"sendtodoc",
   "title": "Send2",
@@ -10,7 +9,11 @@ chrome.contextMenus.create({
 })
 
 chrome.contextMenus.onClicked.addListener(function(info){
-  selectedtext = info.selectionText
+  chrome.storage.sync.get('globalcount', function(result) {
+    let globalcount1
+    let globalcount;
+    console.log(result.globalcount)
+    selectedtext = info.selectionText
   seletectedlink = info.linkUrl
   let parsed;
   if (selectedtext == undefined){parsed = info.linkUrl}
@@ -59,7 +62,9 @@ chrome.contextMenus.onClicked.addListener(function(info){
           priority:2 
           })} else return (response.json().then(function(data) {
           chrome.notifications.clear('success', () => {
-          chrome.notifications.create(
+            chrome.storage.sync.set({'globalcount':globalcount1}, function() {
+              globalcount1++
+            }),          chrome.notifications.create(
             'success',{   
             type: 'basic', 
             iconUrl: 'send2.png', 
@@ -128,4 +133,4 @@ chrome.contextMenus.onClicked.addListener(function(info){
                       },
                       )
                     
-                    })}))})})})}})})
+                    })}))})})})}})})})
