@@ -19,6 +19,65 @@
   checkTitle();
 })();
 
+chrome.storage.local.get('globalcount', function(result) {
+  var finalcount = result.globalcount
+chrome.storage.local.get('currentdaystring', function(result) {
+  if (result.currentdaystring != currentdaystring ){
+    finalcount = 0
+  }})
+  var showstopper;
+
+
+chrome.identity.getAuthToken({interactive: false}, function(token) {
+var CWS_LICENSE_API_URL = 'https://www.googleapis.com/chromewebstore/v1.1/userlicenses/';
+var req = new XMLHttpRequest();
+req.open('GET', CWS_LICENSE_API_URL + chrome.runtime.id);
+req.setRequestHeader('Authorization', 'Bearer ' + token);
+req.onreadystatechange = function() {
+  dailylimitchecker = 0
+  if (req.readyState == 4) {
+    var license = JSON.parse(req.responseText);
+    var licenseStatus;
+if (license.result && license.accessLevel == "FULL") {
+  licenseStatus = "FULL";
+if (licenseStatus == "FULL") { dailylimitchecker = 120
+}
+} else if (license.result && license.accessLevel == "FREE_TRIAL") {
+    licenseStatus = "FREE_TRIAL";
+    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = 10
+      console.log
+}  
+}
+  }
+chrome.storage.local.set({"dailylimitchecker":dailylimitchecker}, function() {})
+}
+req.send()
+
+chrome.storage.local.get('dailylimitchecker', function(result) {
+if (finalcount > result.dailylimitchecker ) { 
+  showstopper = 1
+}else  {showstopper = 0 }
+chrome.storage.local.set({"showstopper":showstopper}, function() {})
+})})})
+
+function counter(){chrome.storage.local.get('globalcount', function(result) {
+var finalcount = result.globalcount
+var globalcount1 = finalcount || 0 
+globalcount1++
+chrome.storage.local.set({"globalcount":globalcount1}, function() {})
+})}
+function stopped(){chrome.storage.local.get('showstopper', function(result) {
+  if(result.showstopper == 1){
+    var w = 550;
+    var h = 440;
+    var left = (screen.width/2)-(w/2);
+    var top = (screen.height/2)-(h/2); 
+
+
+    chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} , function(window) {
+ },)}})}
+
+
 //Handles selected doc menu functions
 document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('docs').addEventListener('click', function() {
@@ -42,6 +101,19 @@ donatebtn.addEventListener('click', function() {
     var newURL = "https://ko-fi.com/send22";
     chrome.tabs.create({ url: newURL });
   })})
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var Upgrade = document.getElementById('Upgrade');  
+    Upgrade.addEventListener('click', function() {
+      var w = 550;
+      var h = 440;
+      var left = (screen.width/2)-(w/2);
+      var top = (screen.height/2)-(h/2); 
+  
+  
+      chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} );
+      })})
 
 document.addEventListener('DOMContentLoaded', function () {
     var donatebtn = document.getElementById('tutorial');  
@@ -90,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
     request.setRequestHeader('Accept', 'application/json');
-    request.send("Body="+tablink+" Sent using Send2"+"&From=+16192899915&To=1"+tonumber+"");
+    request.send("Body="+"Sent using Send2 "+tablink+"&From=+16192899915&To=1"+tonumber+"");
     request.onreadystatechange = function () {    var checkrequest = request.status
         if (checkrequest == 200){chrome.notifications.create(
           'success',{   
@@ -102,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
           priority:2 
           })}
           else if (checkrequest == 201){
-            chrome.notifications.clear('success', () => {
+            chrome.notifications.clear('success', () => {counter()
             chrome.notifications.create(
               'success',{   
               type: 'basic', 

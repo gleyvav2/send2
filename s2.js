@@ -168,6 +168,18 @@ donatebtn.addEventListener('click', function() {
     chrome.tabs.create({ url: newURL });
   })})
 
+  document.addEventListener('DOMContentLoaded', function () {
+    var Upgrade = document.getElementById('Upgrade');  
+    Upgrade.addEventListener('click', function() {
+      var w = 550;
+      var h = 440;
+      var left = (screen.width/2)-(w/2);
+      var top = (screen.height/2)-(h/2); 
+  
+  
+      chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} );
+      })})
+
 document.addEventListener('DOMContentLoaded', function () {
     var donatebtn = document.getElementById('tutorial');  
     donatebtn.addEventListener('click', function() {

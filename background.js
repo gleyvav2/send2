@@ -35,7 +35,7 @@ if (licenseStatus == "FULL") { dailylimitchecker = 120
 }
 } else if (license.result && license.accessLevel == "FREE_TRIAL") {
     licenseStatus = "FREE_TRIAL";
-    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = 20
+    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = 10
       console.log
 }  
 }
@@ -47,7 +47,7 @@ req.send()
 chrome.storage.local.get('dailylimitchecker', function(result) {
 if (finalcount > result.dailylimitchecker ) { 
   showstopper = 1
-}else  {showstopper = 0 , console.log("Worked")}
+}else  {showstopper = 0 }
 chrome.storage.local.set({"showstopper":showstopper}, function() {})
 })})})
 
@@ -59,9 +59,13 @@ chrome.storage.local.set({"globalcount":globalcount1}, function() {})
 })}
 function stopped(){chrome.storage.local.get('showstopper', function(result) {
   if(result.showstopper == 1){
- chrome.windows.create({
-   url: chrome.runtime.getURL("upgrade.html"),
-   type: "popup"
+    var w = 550;
+    var h = 440;
+    var left = (screen.width/2)-(w/2);
+    var top = (screen.height/2)-(h/2); 
+
+
+    chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} , function(window) {
  },)}})}
 
 ///////////////////////////////Trial Message//
@@ -137,72 +141,62 @@ chrome.contextMenus.onClicked.addListener(function(info){
             },
             
           )})}))})
-        })})}})
-      }})})
+        })})}
 
-///////////////////////////////Send to Bot right click//
+        ///////////////////////////////Send to Bot right click//
 
-chrome.contextMenus.onClicked.addListener(function(info){
-  chrome.storage.local.get('showstopper', function(result) {
-    if (result.showstopper == 1){stopped()}
-    else { 
-  selectedtext = info.selectionText
-  seletectedlink = info.linkUrl
-  let parsed;
-  if (selectedtext == undefined){parsed = info.linkUrl}
-  if (seletectedlink == undefined){parsed = info.selectionText}
-chrome.storage.local.get('dpselectset', function(result) {
-let top1 = result.dpselectset
-if (top1 =="off"){
-chrome.storage.local.get(['key','key2'], function(result) {
-gg = result.key
-title = result.key2
-chrome.identity.getAuthToken({interactive: true}, function(token) {
-let init = {
-method: 'POST',
-async: true,
-headers: {
-  Authorization: 'Bearer ' + token,
-  'Content-Type': 'application/json'
-},
-body: JSON.stringify({
-  "requests": [
-    {
-      "insertText": {
-        "endOfSegmentLocation": {
-          "segmentId": ""
-        },
-        "text":"\n" + send2check + parsed
-      }
-    }
-  ]
-}),
-'contentType': 'json'
-};
+        if (top1 =="off"){
+          chrome.storage.local.get(['key','key2'], function(result) {
+          gg = result.key
+          title = result.key2
+          chrome.identity.getAuthToken({interactive: true}, function(token) {
+          let init = {
+          method: 'POST',
+          async: true,
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "requests": [
+              {
+                "insertText": {
+                  "endOfSegmentLocation": {
+                    "segmentId": ""
+                  },
+                  "text":"\n" + send2check + parsed
+                }
+              }
+            ]
+          }),
+          'contentType': 'json'
+          };
+          
+          fetch(
+            "https://docs.googleapis.com/v1/documents/"+ gg +":batchUpdate?access_token=yes&key=AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8",init)
+            .then((response) => {if(response.status !== 200) {chrome.notifications.create(
+              'success',{   
+              type: 'basic', 
+              iconUrl: 'send2.png', 
+              title: "Send2", 
+              message: "Please Authorize the app or select a document" ,
+              silent:true,
+              priority:2 
+              })} else return (response.json().then(function(data) {
+                counter()
+                chrome.notifications.clear('success', () => {
+                chrome.notifications.create( 
+                  'success',{   
+                  type: 'basic', 
+                  iconUrl: 'send2.png', 
+                  title: "Send2", 
+                  message: "Your message has been sent to the following document: " +title ,
+                  silent:true,
+                  priority:0 
+                  
+                },
+                )}
+                )}))})})})}})}})})
+      
 
-fetch(
-  "https://docs.googleapis.com/v1/documents/"+ gg +":batchUpdate?access_token=yes&key=AIzaSyBM02Za0vpbuW8Kcim_xJpLVo4fzevX4m8",init)
-  .then((response) => {if(response.status !== 200) {chrome.notifications.create(
-    'success',{   
-    type: 'basic', 
-    iconUrl: 'send2.png', 
-    title: "Send2", 
-    message: "Please Authorize the app or select a document" ,
-    silent:true,
-    priority:2 
-    })} else return (response.json().then(function(data) {
-      counter()
-      chrome.notifications.clear('success', () => {
-      chrome.notifications.create( 
-        'success',{   
-        type: 'basic', 
-        iconUrl: 'send2.png', 
-        title: "Send2", 
-        message: "Your message has been sent to the following document: " +title ,
-        silent:true,
-        priority:0 
-        
-      },
-      )
-    
-    })}))})})})}})}})})
+
