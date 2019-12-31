@@ -11,61 +11,61 @@ chrome.runtime.onInstalled.addListener(function(){
       chrome.tabs.create({ url: newURL })})
 //////////////////////////Start verifying license ////////////////
 chrome.storage.local.get('globalcount', function(result) {
-  console.log(result.globalcount)
   var finalcount = result.globalcount
 chrome.storage.local.get('currentdaystring', function(result) {
-console.log(result.currentdaystring), console.log(nextdaystring)})
-  if (result.currentdaystring != nextdaystring ){
+  if (result.currentdaystring != currentdaystring ){
     finalcount = 0
-    console.log("TimeOK")
-  }
-dailylimitchecker = 0 
-dailylimitfree = 20
-dailtlimitfull = 120
-var showstopper;
-if (finalcount >= dailylimitchecker ) { 
-  showstopper = 1
-}else {showstopper = 0}
-chrome.storage.local.set({"showstopper":showstopper}, function() {})
+  }})
+  var showstopper;
+
+
 chrome.identity.getAuthToken({interactive: false}, function(token) {
 var CWS_LICENSE_API_URL = 'https://www.googleapis.com/chromewebstore/v1.1/userlicenses/';
 var req = new XMLHttpRequest();
 req.open('GET', CWS_LICENSE_API_URL + chrome.runtime.id);
 req.setRequestHeader('Authorization', 'Bearer ' + token);
 req.onreadystatechange = function() {
+  dailylimitchecker = 0
   if (req.readyState == 4) {
     var license = JSON.parse(req.responseText);
-    console.log(license);
     var licenseStatus;
-    var TRIAL_PERIOD_DAYS = 30
 if (license.result && license.accessLevel == "FULL") {
-  console.log("Fully paid & properly licensed.");
   licenseStatus = "FULL";
-if (licenseStatus == "FULL") { dailylimitchecker = dailtlimitfull
-  console.log("worked")
-  
+if (licenseStatus == "FULL") { dailylimitchecker = 120
 }
 } else if (license.result && license.accessLevel == "FREE_TRIAL") {
-  var daysAgoLicenseIssued = Date.now() - parseInt(license.createdTime, 10);
     licenseStatus = "FREE_TRIAL";
-    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = dailylimitfree
-      console.log("Free")
+    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = 20
+      console.log
 }  
 }
   }
+chrome.storage.local.set({"dailylimitchecker":dailylimitchecker}, function() {})
 }
 req.send()
 
-})
+chrome.storage.local.get('dailylimitchecker', function(result) {
+if (finalcount > result.dailylimitchecker ) { 
+  showstopper = 1
+}else  {showstopper = 0 , console.log("Worked")}
+chrome.storage.local.set({"showstopper":showstopper}, function() {})
+})})})
 
-
+function counter(){chrome.storage.local.get('globalcount', function(result) {
+var finalcount = result.globalcount
 var globalcount1 = finalcount || 0 
 globalcount1++
-chrome.storage.local.set({"globalcount":globalcount1}, function() {
-})})
+chrome.storage.local.set({"globalcount":globalcount1}, function() {})
+})}
+function stopped(){chrome.storage.local.get('showstopper', function(result) {
+  if(result.showstopper == 1){
+ chrome.windows.create({
+   url: chrome.runtime.getURL("upgrade.html"),
+   type: "popup"
+ },)}})}
 
+///////////////////////////////Trial Message//
    send2check = "Sent using Send2 "
-
 ///////////////////////////////Create right click//
 chrome.contextMenus.create({
   "id":"sendtodoc",
@@ -75,8 +75,8 @@ chrome.contextMenus.create({
 ///////////////////////////////Send to top right click//
 chrome.contextMenus.onClicked.addListener(function(info){
   chrome.storage.local.get('showstopper', function(result) {
-  if (result.showstopper == 1){console.log("STOPPPPP")}
-  else {
+  if (result.showstopper == 1){stopped()}
+  else { 
   selectedtext = info.selectionText
   seletectedlink = info.linkUrl
   let parsed;
@@ -88,7 +88,7 @@ chrome.contextMenus.onClicked.addListener(function(info){
   chrome.storage.local.get(['key','key2'], function(result) {
     gg = result.key
     title = result.key2
-    if (title == null){console.log("nothing")}
+    if (title == null){}
   chrome.identity.getAuthToken({interactive: true}, function(token) {
     let init = {
       method: 'POST',
@@ -143,6 +143,9 @@ chrome.contextMenus.onClicked.addListener(function(info){
 ///////////////////////////////Send to Bot right click//
 
 chrome.contextMenus.onClicked.addListener(function(info){
+  chrome.storage.local.get('showstopper', function(result) {
+    if (result.showstopper == 1){stopped()}
+    else { 
   selectedtext = info.selectionText
   seletectedlink = info.linkUrl
   let parsed;
@@ -187,7 +190,8 @@ fetch(
     message: "Please Authorize the app or select a document" ,
     silent:true,
     priority:2 
-    })} else return (response.json().then(function(data) {counter()
+    })} else return (response.json().then(function(data) {
+      counter()
       chrome.notifications.clear('success', () => {
       chrome.notifications.create( 
         'success',{   
@@ -201,5 +205,4 @@ fetch(
       },
       )
     
-    })}))})})})}})})
-  
+    })}))})})})}})}})})
