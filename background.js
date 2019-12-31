@@ -1,12 +1,33 @@
-console.log(Date.now())
-
+var day1 = 0;
+var newDate1 = new Date(Date.now() + day1*24*60*60*1000);
+var day2 = 1;
+var newDate2 = new Date(Date.now() + day2*24*60*60*1000);
+chrome.storage.local.set({"newDate1":newDate1}, function() {
+  console.log(newDate1)
+})
+let showstopper = 0 // This needs to reset daily
 //One time run on install //
 chrome.runtime.onInstalled.addListener(function(){
       var newURL = "./tutorial/tutorial.html";
       chrome.tabs.create({ url: newURL })})
-
 //////////////////////////Start verifying license ////////////////
-send2check = "Sent using Send2 "
+chrome.storage.local.get('globalcount', function(result) {
+  console.log(result.globalcount)
+  var finalcount = result.globalcount
+chrome.storage.local.get('newDate1', function(result) {
+console.log(result.newDate1)})
+  if (result.newDate1 >= newDate2 ){
+    finalcount = 0
+    console.log("TimeOK")
+  }
+dailylimitchecker = 0 
+dailylimitfree = 20
+dailtlimitfull = 120
+var showstopper;
+if (finalcount >= dailylimitchecker ) { 
+  showstopper = 1
+}else {showstopper = 0}
+chrome.storage.local.set({"showstopper":showstopper}, function() {})
 chrome.identity.getAuthToken({interactive: false}, function(token) {
 var CWS_LICENSE_API_URL = 'https://www.googleapis.com/chromewebstore/v1.1/userlicenses/';
 var req = new XMLHttpRequest();
@@ -21,19 +42,16 @@ req.onreadystatechange = function() {
 if (license.result && license.accessLevel == "FULL") {
   console.log("Fully paid & properly licensed.");
   licenseStatus = "FULL";
+if (licenseStatus == "FULL") { dailylimitchecker = dailtlimitfull
+  console.log("worked")
+  
+}
 } else if (license.result && license.accessLevel == "FREE_TRIAL") {
   var daysAgoLicenseIssued = Date.now() - parseInt(license.createdTime, 10);
-  daysAgoLicenseIssued = daysAgoLicenseIssued / 1000 / 60 / 60 / 24;
-  if (daysAgoLicenseIssued <= TRIAL_PERIOD_DAYS) {
-    console.log("Free trial, still within trial period");
     licenseStatus = "FREE_TRIAL";
-  } else {
-    console.log("Free trial, trial period expired.");
-    licenseStatus = "FREE_TRIAL_EXPIRED";
-  }
-} else {
-  console.log("No license ever issued.");
-  licenseStatus = "NONE";
+    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = dailylimitfree
+      console.log("Free")
+}  
 }
   }
 }
@@ -41,16 +59,13 @@ req.send()
 
 })
 
-//this function will keep count for paid users
-function counter(){chrome.storage.local.get('globalcount', function(result) {
-  var finalcount = result.globalcount
-  console.log(finalcount)  
+
 var globalcount1 = finalcount || 0 
 globalcount1++
 chrome.storage.local.set({"globalcount":globalcount1}, function() {
-   })})}
-   
+})})
 
+   send2check = "Sent using Send2 "
 
 ///////////////////////////////Create right click//
 chrome.contextMenus.create({
@@ -60,6 +75,9 @@ chrome.contextMenus.create({
 })
 ///////////////////////////////Send to top right click//
 chrome.contextMenus.onClicked.addListener(function(info){
+  chrome.storage.local.get('showstopper', function(result) {
+  if (result.showstopper == 1){console.log("STOPPPPP")}
+  else {
   selectedtext = info.selectionText
   seletectedlink = info.linkUrl
   let parsed;
@@ -121,7 +139,7 @@ chrome.contextMenus.onClicked.addListener(function(info){
             
           )})}))})
         })})}})
-      })
+      }})})
 
 ///////////////////////////////Send to Bot right click//
 

@@ -143,8 +143,6 @@ function pickerCallback(data) {
   (data[google.picker.Response.ACTION] == google.picker.Action.CANCEL){
     window.close()
   }
-  else if (closeme == 1 ){    window.close()
-  }
 }
 document.addEventListener('DOMContentLoaded', function () {
 addEventListener('change', function(){
