@@ -1,9 +1,8 @@
-var day1 = 0;
-var newDate1 = new Date(Date.now() + day1*24*60*60*1000);
-var day2 = 1;
-var newDate2 = new Date(Date.now() + day2*24*60*60*1000);
-chrome.storage.local.set({"newDate1":newDate1}, function() {
-  console.log(newDate1)
+var myDate = new Date();
+var next_date = new Date(myDate.getTime() + 86400000);
+currentdaystring = myDate.toLocaleDateString()
+nextdaystring = next_date.toLocaleDateString()
+chrome.storage.local.set({"currentdaystring":currentdaystring}, function() {
 })
 let showstopper = 0 // This needs to reset daily
 //One time run on install //
@@ -14,9 +13,9 @@ chrome.runtime.onInstalled.addListener(function(){
 chrome.storage.local.get('globalcount', function(result) {
   console.log(result.globalcount)
   var finalcount = result.globalcount
-chrome.storage.local.get('newDate1', function(result) {
-console.log(result.newDate1)})
-  if (result.newDate1 >= newDate2 ){
+chrome.storage.local.get('currentdaystring', function(result) {
+console.log(result.currentdaystring), console.log(nextdaystring)})
+  if (result.currentdaystring != nextdaystring ){
     finalcount = 0
     console.log("TimeOK")
   }
