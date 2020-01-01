@@ -1,25 +1,9 @@
-chrome.storage.local.get('globalcount', function(result) {
-console.log(result.globalcount)
-})
-
-var s = document.createElement('script');
-s.src = chrome.runtime.getURL('buy.js');
-s.onload = function() {
+var s2 = document.createElement('script');
+s2.src = chrome.runtime.getURL('s2auth.js');
+s2.onload = function() {
     this.remove();
 };
-(document.head || document.documentElement).appendChild(s);
-
-//this function will keep count for paid users
-   function counter(){chrome.storage.local.get('globalcount', function(result) {
-      var finalcount = result.globalcount
-    var globalcount1 = finalcount || 0 
-    globalcount1++
-    chrome.storage.local.set({"globalcount":globalcount1}, function() {
-       })})}
-
-//Removes trial message
-send2check = "Sent using Send2 "
-
+(document.head || document.documentElement).appendChild(s2);
 
 
 loadScript('https://apis.google.com/js/api.js?onload=onApiLoad');
@@ -177,15 +161,14 @@ donatebtn.addEventListener('click', function() {
   document.addEventListener('DOMContentLoaded', function () {
     var Upgrade = document.getElementById('Upgrade');  
     Upgrade.addEventListener('click', function() {
-      google.payments.inapp.buy({
-        'parameters': {
-            'env': 'prod'
-        },
-        'sku': 'aochhbmlpoajkklegodlhegiebkabjmf',
-        'success': purchaseInfo => onPurchase(false, purchaseInfo),
-        'failure': reason => onPurchase(true, reason)
-    });
-  })})
+      var w = 550;
+      var h = 440;
+      var left = (screen.width/2)-(w/2);
+      var top = (screen.height/2)-(h/2); 
+  
+  
+      chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} );
+      })})
 
 document.addEventListener('DOMContentLoaded', function () {
     var donatebtn = document.getElementById('tutorial');  

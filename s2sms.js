@@ -1,3 +1,10 @@
+var s2 = document.createElement('script');
+s2.src = chrome.runtime.getURL('s2auth.js');
+s2.onload = function() {
+    this.remove();
+};
+(document.head || document.documentElement).appendChild(s2);
+
 //Handles selected doc menu highlighter
 (function () {
   var lastTitle = "send2 doc";
