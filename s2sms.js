@@ -19,64 +19,6 @@
   checkTitle();
 })();
 
-chrome.storage.local.get('globalcount', function(result) {
-  var finalcount = result.globalcount
-chrome.storage.local.get('currentdaystring', function(result) {
-  if (result.currentdaystring != currentdaystring ){
-    finalcount = 0
-  }})
-  var showstopper;
-
-
-chrome.identity.getAuthToken({interactive: false}, function(token) {
-var CWS_LICENSE_API_URL = 'https://www.googleapis.com/chromewebstore/v1.1/userlicenses/';
-var req = new XMLHttpRequest();
-req.open('GET', CWS_LICENSE_API_URL + chrome.runtime.id);
-req.setRequestHeader('Authorization', 'Bearer ' + token);
-req.onreadystatechange = function() {
-  dailylimitchecker = 0
-  if (req.readyState == 4) {
-    var license = JSON.parse(req.responseText);
-    var licenseStatus;
-if (license.result && license.accessLevel == "FULL") {
-  licenseStatus = "FULL";
-if (licenseStatus == "FULL") { dailylimitchecker = 120
-}
-} else if (license.result && license.accessLevel == "FREE_TRIAL") {
-    licenseStatus = "FREE_TRIAL";
-    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = 10
-      console.log
-}  
-}
-  }
-chrome.storage.local.set({"dailylimitchecker":dailylimitchecker}, function() {})
-}
-req.send()
-
-chrome.storage.local.get('dailylimitchecker', function(result) {
-if (finalcount > result.dailylimitchecker ) { 
-  showstopper = 1
-}else  {showstopper = 0 }
-chrome.storage.local.set({"showstopper":showstopper}, function() {})
-})})})
-
-function counter(){chrome.storage.local.get('globalcount', function(result) {
-var finalcount = result.globalcount
-var globalcount1 = finalcount || 0 
-globalcount1++
-chrome.storage.local.set({"globalcount":globalcount1}, function() {})
-})}
-function stopped(){chrome.storage.local.get('showstopper', function(result) {
-  if(result.showstopper == 1){
-    var w = 550;
-    var h = 440;
-    var left = (screen.width/2)-(w/2);
-    var top = (screen.height/2)-(h/2); 
-
-
-    chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} , function(window) {
- },)}})}
-
 
 //Handles selected doc menu functions
 document.addEventListener('DOMContentLoaded', function () {
@@ -145,18 +87,18 @@ document.addEventListener('DOMContentLoaded', function () {
   
 //Send current page SMS
 document.addEventListener('DOMContentLoaded', function () {
-  chrome.storage.local.get('btnsubmit', function(result) { 
-
   var phone = document.getElementById('phone');  
   phone.addEventListener('click', function() {
+    chrome.storage.local.get('showstopper', function(result) {
+      if (result.showstopper == 1){stopped()}
+      else { 
+    chrome.storage.local.get('btnsubmit', function(result) { 
     chrome.tabs.getSelected(null,function(tab) {
     var tablink = tab.url;
-
     var clientId = "AC7c0420605b10b3bc1ec2bafc071553d9";
     var clientSecret = "4beb056670936962dcebc9e26db3500a";
     var authorizationBasic = window.btoa(clientId + ':' + clientSecret);
     var tonumber = result.btnsubmit
- 
     var request = new XMLHttpRequest();
     request.open('POST',"https://api.twilio.com/2010-04-01/Accounts/AC7c0420605b10b3bc1ec2bafc071553d9/Messages.json" , true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
@@ -174,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
           priority:2 
           })}
           else if (checkrequest == 201){
-            chrome.notifications.clear('success', () => {counter()
+            chrome.notifications.clear('success', () => {counter(),window.close()
             chrome.notifications.create(
               'success',{   
               type: 'basic', 
@@ -183,4 +125,8 @@ document.addEventListener('DOMContentLoaded', function () {
               message: "Your message has been sent to the following number:"+tonumber+"",
               silent:true,
               priority:0 
-            })})}}})})})})  
+              }
+              
+              )
+              window.close()
+            })}}})})}})})})

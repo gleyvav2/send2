@@ -7,7 +7,7 @@
   "author": "Gus Leyva",
   "background": {
   "scripts": ["background.js"],
-  "js":["s2.js"],
+  "js":["s2.js","buy.js"],
   "persistent":true
   },
   "icons": {

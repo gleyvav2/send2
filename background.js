@@ -1,3 +1,6 @@
+
+
+
 var myDate = new Date();
 var next_date = new Date(myDate.getTime() + 86400000);
 currentdaystring = myDate.toLocaleDateString()
@@ -32,11 +35,11 @@ req.onreadystatechange = function() {
 if (license.result && license.accessLevel == "FULL") {
   licenseStatus = "FULL";
 if (licenseStatus == "FULL") { dailylimitchecker = 120
+  console.log("Full")
 }
 } else if (license.result && license.accessLevel == "FREE_TRIAL") {
     licenseStatus = "FREE_TRIAL";
-    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = 10
-      console.log
+    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = 30
 }  
 }
   }
@@ -45,7 +48,7 @@ chrome.storage.local.set({"dailylimitchecker":dailylimitchecker}, function() {})
 req.send()
 
 chrome.storage.local.get('dailylimitchecker', function(result) {
-if (finalcount > result.dailylimitchecker ) { 
+if (finalcount >= result.dailylimitchecker ) { 
   showstopper = 1
 }else  {showstopper = 0 }
 chrome.storage.local.set({"showstopper":showstopper}, function() {})
@@ -76,6 +79,9 @@ chrome.contextMenus.create({
   "title": "Send2",
   "contexts": ["selection","link"],
 })
+
+
+
 ///////////////////////////////Send to top right click//
 chrome.contextMenus.onClicked.addListener(function(info){
   chrome.storage.local.get('showstopper', function(result) {

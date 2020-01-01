@@ -2,10 +2,16 @@ chrome.storage.local.get('globalcount', function(result) {
 console.log(result.globalcount)
 })
 
+var s = document.createElement('script');
+s.src = chrome.runtime.getURL('buy.js');
+s.onload = function() {
+    this.remove();
+};
+(document.head || document.documentElement).appendChild(s);
+
 //this function will keep count for paid users
    function counter(){chrome.storage.local.get('globalcount', function(result) {
       var finalcount = result.globalcount
-      console.log(finalcount)  
     var globalcount1 = finalcount || 0 
     globalcount1++
     chrome.storage.local.set({"globalcount":globalcount1}, function() {
@@ -171,14 +177,15 @@ donatebtn.addEventListener('click', function() {
   document.addEventListener('DOMContentLoaded', function () {
     var Upgrade = document.getElementById('Upgrade');  
     Upgrade.addEventListener('click', function() {
-      var w = 550;
-      var h = 440;
-      var left = (screen.width/2)-(w/2);
-      var top = (screen.height/2)-(h/2); 
-  
-  
-      chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} );
-      })})
+      google.payments.inapp.buy({
+        'parameters': {
+            'env': 'prod'
+        },
+        'sku': 'aochhbmlpoajkklegodlhegiebkabjmf',
+        'success': purchaseInfo => onPurchase(false, purchaseInfo),
+        'failure': reason => onPurchase(true, reason)
+    });
+  })})
 
 document.addEventListener('DOMContentLoaded', function () {
     var donatebtn = document.getElementById('tutorial');  
@@ -188,9 +195,13 @@ document.addEventListener('DOMContentLoaded', function () {
       })})
 
 
+
 document.addEventListener('DOMContentLoaded', function () {
   var currentUrl = document.getElementById('currentUrl');  
   currentUrl.addEventListener('click', function() { 
+    chrome.storage.local.get('showstopper', function(result) {
+      if (result.showstopper == 1){stopped()}
+      else { 
     chrome.tabs.getSelected(null,function(tab) {
       chrome.storage.local.get(['key','key2'], function(result) {
         gg = result.key
@@ -230,8 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
               silent:true,
               priority:2 
               })} else return (response.json().then(function(data) {
-                chrome.notifications.clear('success', () => {
-                  counter()
+                chrome.notifications.clear('success', () => {counter(),window.close()
                 chrome.notifications.create(
                   'success',{   
                   type: 'basic', 
@@ -244,4 +254,4 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 )
   });
-              }))})})})})})})
+              }))})})})})}})})})
