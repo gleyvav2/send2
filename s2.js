@@ -21,7 +21,6 @@ function loadScript(url){
 	request.open('GET', url);
 	request.send();
 }
-
 //Handles selected doc menu highlighter
 (function () {
   var lastTitle = "send2 doc";
@@ -42,6 +41,10 @@ function loadScript(url){
   };
   checkTitle();
 })();
+
+//handles upgrade button for full or free users//
+
+
 
 //Handles selected doc menu functions
 document.addEventListener('DOMContentLoaded', function () {
@@ -158,8 +161,12 @@ donatebtn.addEventListener('click', function() {
     chrome.tabs.create({ url: newURL });
   })})
 
-  document.addEventListener('DOMContentLoaded', function () {
-    var Upgrade = document.getElementById('Upgrade');  
+//////////////////////////Handles upgrade button ////////////////
+document.addEventListener('DOMContentLoaded', function () {
+    var Upgrade = document.getElementById('Upgrade'); 
+    chrome.storage.local.get('removeupgrade', function(result) { 
+    if (result.removeupgrade == 1){ document.getElementById('Upgrade').style.setProperty("display", "none", "important");}
+    else
     Upgrade.addEventListener('click', function() {
       var w = 550;
       var h = 440;
@@ -167,7 +174,7 @@ donatebtn.addEventListener('click', function() {
       var top = (screen.height/2)-(h/2); 
       chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} )
       window.close()
-      })})
+    })})})
 
 document.addEventListener('DOMContentLoaded', function () {
     var donatebtn = document.getElementById('tutorial');  

@@ -5,6 +5,10 @@ currentdaystring = myDate.toLocaleDateString()
 chrome.runtime.onInstalled.addListener(function(){
       var newURL = "./tutorial/tutorial.html";
       chrome.tabs.create({ url: newURL })})
+
+
+
+      
 //////////////////////////Start verifying license ////////////////
 chrome.storage.local.get('globalcount', function(result) {
   var finalcount = result.globalcount
@@ -31,11 +35,14 @@ req.onreadystatechange = function() {
 if (license.result && license.accessLevel == "FULL") {
   licenseStatus = "FULL";
 if (licenseStatus == "FULL") { dailylimitchecker = 100
-  console.log("Full")
+  removeupgrade = 1
+      chrome.storage.local.set({"removeupgrade":removeupgrade}, function() {})
 }
 } else if (license.result && license.accessLevel == "FREE_TRIAL") {
     licenseStatus = "FREE_TRIAL";
-    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = 30
+    if (licenseStatus == "FREE_TRIAL") { dailylimitchecker = 15
+      removeupgrade = 0
+      chrome.storage.local.set({"removeupgrade":removeupgrade}, function() {})
 }  
 }
   }
