@@ -59,9 +59,8 @@ donatebtn.addEventListener('click', function() {
       var h = 440;
       var left = (screen.width/2)-(w/2);
       var top = (screen.height/2)-(h/2); 
-  
-  
-      chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} );
+      chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top,} )
+      window.close()
       })})
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -78,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.storage.local.set({'btnsubmit':btnsubmit1}, function() {
       document.getElementById("saved").innerHTML = "Saved";
       window.setTimeout(partB,500);
-      function partB(){      location.reload()
+      function partB(){location.reload()
       }
   })
   })})
@@ -123,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
           priority:2 
           })}
           else if (checkrequest == 201){
-            chrome.notifications.clear('success', () => {counter(),window.close()
+            chrome.notifications.clear('success', () => {
             chrome.notifications.create(
               'success',{   
               type: 'basic', 
@@ -135,5 +134,8 @@ document.addEventListener('DOMContentLoaded', function () {
               }
               
               )
-              window.close()
-            })}}})})}})})})
+            }
+            )
+            counter();setTimeout("window.close()",50);
+
+          }}})})}})})})

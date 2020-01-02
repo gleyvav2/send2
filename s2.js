@@ -165,9 +165,8 @@ donatebtn.addEventListener('click', function() {
       var h = 440;
       var left = (screen.width/2)-(w/2);
       var top = (screen.height/2)-(h/2); 
-  
-  
-      chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} );
+      chrome.windows.create({'url': 'upgrade.html', 'type': 'popup', 'width': w, 'height': h, 'left': left, 'top': top} )
+      window.close()
       })})
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -224,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
               silent:true,
               priority:2 
               })} else return (response.json().then(function(data) {
-                chrome.notifications.clear('success', () => {counter(),window.close()
+                chrome.notifications.clear('success', () => {
                 chrome.notifications.create(
                   'success',{   
                   type: 'basic', 
@@ -235,6 +234,9 @@ document.addEventListener('DOMContentLoaded', function () {
                   priority:0 
                   
                 },
-                )
-  });
+                )})
+                counter();setTimeout("window.close()",50);
+
+  
+
               }))})})})})}})})})
