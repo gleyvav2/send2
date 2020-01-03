@@ -15,13 +15,11 @@ chrome.storage.local.get('globalcount', function(result) {
 chrome.storage.local.get('showstopper', function(result) {
   showstopper = result.showstopper
 chrome.storage.local.get('currentdaystring', function(result) {
-  console.log(result.currentdaystring)
   if (showstopper == 1 && result.currentdaystring != currentdaystring ){
     globalcount1 = 0
     chrome.storage.local.set({"globalcount":globalcount1}, function() {})
   }})})
  
-console.log(finalcount)
 chrome.identity.getAuthToken({interactive: false}, function(token) {
 var CWS_LICENSE_API_URL = 'https://www.googleapis.com/chromewebstore/v1.1/userlicenses/';
 var req = new XMLHttpRequest();
