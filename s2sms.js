@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
     request.setRequestHeader('Accept', 'application/json');
-    request.send("Body="+"Sent using Send2 "+tablink+"&From=+16192899915&To=1"+tonumber+"");
+    request.send("Body="+"Sent using Send2 "+encodeURIComponent(tablink)+"&From=+16192899915&To=1"+tonumber+"");
     request.onreadystatechange = function () {    var checkrequest = request.status
         if (checkrequest == 200){chrome.notifications.create(
           'success',{   
