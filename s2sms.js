@@ -110,7 +110,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var authorizationBasic = window.btoa(clientId + ':' + clientSecret);
     var tonumber = result.btnsubmit
     var request = new XMLHttpRequest();
-    request.open('POST',"https://api.twilio.com/2010-04-01/Accounts/AC7c0420605b10b3bc1ec2bafc071553d9/Messages.json" , true);
+    // Twillio API changed and removed - 
+    request.open('POST',"https://api.twilio.com/" , true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
     request.setRequestHeader('Authorization', 'Basic ' + authorizationBasic);
     request.setRequestHeader('Accept', 'application/json');
